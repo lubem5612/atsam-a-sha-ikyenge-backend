@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SubscriptionController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -40,7 +41,9 @@ Route::group(['prefix' => 'users', 'middleware' => ['auth:sanctum', 'admin']], f
     Route::delete('/{id}', [UserController::class, 'destroy']);
 });
 
-
+Route::group(['prefix' => 'settings'], function() {
+    Route::get('paystack', [ SettingsController::class, 'paystack' ]);
+});
 
 Route::any('/', function (Request $request) {
     return response()->json([
