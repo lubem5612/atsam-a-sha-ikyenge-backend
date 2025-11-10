@@ -117,7 +117,10 @@ class CreateSubscriptionService extends BaseService
             'expired_on' => Carbon::now()->addYear(),
         ]);
 
-        return $this->sendSuccess($subscription, 'subscription created');
+        $token = $this->user->createToken( uniqid(), ['*'], now()->addYear())->plainTextToken;
+        $data = array_merge($subscription->toArray(), ['access_token' => $token]);
+
+        return $this->sendSuccess($data, 'subscription created');
     }
 
 }
