@@ -118,7 +118,7 @@ class CreateSubscriptionService extends BaseService
         ]);
 
         $token = $this->user->createToken( uniqid(), ['*'], now()->addYear())->plainTextToken;
-        $data = array_merge($subscription->toArray(), ['access_token' => $token]);
+        $data = array_merge($subscription->toArray(), ['access_token' => $token, 'user' => $this->user]);
 
         return $this->sendSuccess($data, 'subscription created');
     }

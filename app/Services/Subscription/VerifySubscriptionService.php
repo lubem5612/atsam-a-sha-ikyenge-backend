@@ -71,9 +71,10 @@ class VerifySubscriptionService extends BaseService
         $this->validatedData['number_used'] = $this->subscription->number_used + 1;
         $this->validatedData['status'] = 'active';
         $this->subscription->fill($this->validatedData)->save();
+        $user = $this->subscription->user;
 
         $token = $this->subscription->user->createToken( uniqid(), ['*'], now()->addYear())->plainTextToken;
-        $data = array_merge($this->subscription->refresh()->toArray(), ['access_token' => $token]);
+        $data = array_merge($this->subscription->refresh()->toArray(), ['access_token' => $token, 'user' => $user]);
         return $this->sendSuccess($data, 'subscription verified');
     }
 }
