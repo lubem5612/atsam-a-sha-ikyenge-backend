@@ -14,11 +14,11 @@ class SearchSubscriptionService
     public function searchTerms()
     {
         $search = $this->searchParam;
+        $reference = request()->query('reference');
+        if (isset($reference)) $this->queryBuilder->where('reference', $reference);
 
         $this->queryBuilder->where(function (Builder $builder) use ($search) {
-            $builder->whereLike('reference', "%$search%")
-                ->orWhereLike('code', "%$search%")
-                ->orWhereLike('merchant_id', "%$search%")
+            $builder->whereLike('code', "%$search%")
                 ->orWhereLike('status', "%$search%")
                 ->orWhereHas('user', function(Builder $query) use ($search) {
                     $query->whereLike('name', "%$search%")
