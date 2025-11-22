@@ -62,12 +62,12 @@ class CreateSubscriptionService extends BaseService
     {
         if (Arr::exists($this->validatedData, 'channel') && $this->validatedData['channel'] == 'paystack')
         {
-            $response = (new PayStackHelper([
+            $this->apiResponse = (new PayStackHelper([
                 'url' => "/transaction/verify/".$this->validatedData['reference'],
                 'method' => 'GET',
             ]))->execute();
 
-            abort_unless($response['data'], 503, 'api error');
+            abort_unless($this->apiResponse['data'], 503, 'api error');
         }
     }
 
