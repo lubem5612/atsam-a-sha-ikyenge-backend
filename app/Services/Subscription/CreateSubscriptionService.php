@@ -106,7 +106,9 @@ class CreateSubscriptionService extends BaseService
 
     private function createSubscription()
     {
-        $subscription = Subscription::query()->create([
+        $subscription = Subscription::query()->updateOrCreate([
+            'reference' => $this->validatedData['reference'],
+        ],[
             'user_id' => $this->user->id,
             'reference' => $this->validatedData['reference'],
             'status' => 'active',
